@@ -1,0 +1,19 @@
+* {
+  font-family: sans-serif;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.cool-box {
+  background-color: #f6f6f6;
+  border: 3px solid lightgray;
+  border-radius: 10px;
+  filter: drop-shadow(5px 5px 5px gray);
+}
