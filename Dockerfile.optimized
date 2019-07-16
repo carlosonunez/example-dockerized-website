@@ -1,0 +1,24 @@
+FROM ruby:alpine
+MAINTAINER Carlos Nunez <dev@carlosnunez.me>
+# In the previous Docker image, we copied the entire directory into the
+# container image and mounted it to the `/app` folder. This was easy, but
+# also made any changes to code slow to build due to dependency resolution.
+
+# Instead, copying _just_ the dependency file (`Gemfile` in this case) and
+# running `bundle install` immediately afterwards avoids this by fetching dependencies
+
+# only when `Gemfile` has changed.
+# Since `Gemfile` will change much less frequently than the rest of the codebase,
+# dramatic speed improvements should be observed.
+COPY Gemfile /
+RUN bundle install && rm Gemfile
+
+ENTRYPOINT [ "ruby", "website.rb" ]
+CMD [ "website.rb" ]
+EXPOSE 8080
+USER nobody
+
+# We can apply the same idea to the app itself by making it the last thing
+# that's copied in since nothing else above it explicit relies on it.
+COPY . /app
+WORKDIR /app
